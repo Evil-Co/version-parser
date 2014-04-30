@@ -16,9 +16,11 @@
 
 package com.evilco.version;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
@@ -143,7 +145,9 @@ public class SimpleVersion {
 	 * Constructs a new SimpleVersion instance.
 	 * @param version A string representation of the version.
 	 */
-	public SimpleVersion (String version) {
+	public SimpleVersion (@Nonnull String version) {
+		Preconditions.checkNotNull (version, "version");
+
 		// split version
 		Iterable<String> versionIterable = Splitter.on (VERSION_SEPARATOR).split (version);
 

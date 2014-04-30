@@ -135,4 +135,12 @@ public class ConstructorTest {
 		Assert.assertFalse (parsedVersion.isSnapshotBuild ());
 		Assert.assertFalse (parsedVersion.isReleaseCandidateBuild ());
 	}
+
+	/**
+	 * Tests the parser parameter verification.
+	 */
+	@Test (expected = NullPointerException.class)
+	public void parserNull () {
+		new SimpleVersion (((String) null));
+	}
 }
