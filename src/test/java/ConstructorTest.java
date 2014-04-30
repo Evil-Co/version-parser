@@ -83,5 +83,56 @@ public class ConstructorTest {
 		Assert.assertFalse (parsedVersion.isBetaBuild ());
 		Assert.assertTrue (parsedVersion.isSnapshotBuild ());
 		Assert.assertFalse (parsedVersion.isReleaseCandidateBuild ());
+
+		// build complete test string
+		version = major + SimpleVersion.VERSION_SEPARATOR + minor;
+
+		// create version instance
+		parsedVersion = new SimpleVersion (version);
+
+		// verify instance
+		Assert.assertEquals (major, parsedVersion.getMajor ());
+		Assert.assertEquals (minor, parsedVersion.getMinor ());
+		Assert.assertEquals (0, parsedVersion.getMaintenance ());
+		Assert.assertEquals (0, parsedVersion.getBuild ());
+		Assert.assertFalse (parsedVersion.isUnstableBuild ());
+		Assert.assertFalse (parsedVersion.isAlphaBuild ());
+		Assert.assertFalse (parsedVersion.isBetaBuild ());
+		Assert.assertFalse (parsedVersion.isSnapshotBuild ());
+		Assert.assertFalse (parsedVersion.isReleaseCandidateBuild ());
+
+		// build complete test string
+		version = major + SimpleVersion.VERSION_SEPARATOR + minor + SimpleVersion.VERSION_SEPARATOR + maintenance;
+
+		// create version instance
+		parsedVersion = new SimpleVersion (version);
+
+		// verify instance
+		Assert.assertEquals (major, parsedVersion.getMajor ());
+		Assert.assertEquals (minor, parsedVersion.getMinor ());
+		Assert.assertEquals (maintenance, parsedVersion.getMaintenance ());
+		Assert.assertEquals (0, parsedVersion.getBuild ());
+		Assert.assertFalse (parsedVersion.isUnstableBuild ());
+		Assert.assertFalse (parsedVersion.isAlphaBuild ());
+		Assert.assertFalse (parsedVersion.isBetaBuild ());
+		Assert.assertFalse (parsedVersion.isSnapshotBuild ());
+		Assert.assertFalse (parsedVersion.isReleaseCandidateBuild ());
+
+		// build complete test string
+		version = major + SimpleVersion.VERSION_SEPARATOR + minor + SimpleVersion.VERSION_SEPARATOR + maintenance + SimpleVersion.VERSION_SEPARATOR + build;
+
+		// create version instance
+		parsedVersion = new SimpleVersion (version);
+
+		// verify instance
+		Assert.assertEquals (major, parsedVersion.getMajor ());
+		Assert.assertEquals (minor, parsedVersion.getMinor ());
+		Assert.assertEquals (maintenance, parsedVersion.getMaintenance ());
+		Assert.assertEquals (build, parsedVersion.getBuild ());
+		Assert.assertFalse (parsedVersion.isUnstableBuild ());
+		Assert.assertFalse (parsedVersion.isAlphaBuild ());
+		Assert.assertFalse (parsedVersion.isBetaBuild ());
+		Assert.assertFalse (parsedVersion.isSnapshotBuild ());
+		Assert.assertFalse (parsedVersion.isReleaseCandidateBuild ());
 	}
 }
