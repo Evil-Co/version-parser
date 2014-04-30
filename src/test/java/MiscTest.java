@@ -89,4 +89,23 @@ public class MiscTest {
 		Assert.assertFalse (range.isInRange (testVersion2));
 		Assert.assertTrue (range.isInRange (testVersion3));
 	}
+
+	/**
+	 * Tests the isInRange method (with open end ranges).
+	 * @throws VersionParserException
+	 */
+	@Test
+	public void inRangeHigher () throws VersionParserException {
+		// create versions
+		SimpleVersion version1 = new SimpleVersion (1, 0, 0, 0, null);
+
+		SimpleVersion testVersion1 = new SimpleVersion (5, 0, 0, 0, null);
+
+		// create range
+		SimpleVersionRange range = new SimpleVersionRange (version1, true, null, false);
+
+		// check
+		Assert.assertTrue (range.isInRange (testVersion1));
+		Assert.assertTrue (range.isInRange (version1));
+	}
 }

@@ -82,12 +82,11 @@ public class SimpleVersionRange {
 	 * @param ceilVersion The ceiling version.
 	 * @param ceilVersionFuzzy True if the ceiling version is fuzzy (>= ceiling instead of > ceiling).
 	 */
-	public SimpleVersionRange (@Nonnull SimpleVersion floorVersion, boolean floorVersionFuzzy, @Nonnull SimpleVersion ceilVersion, boolean ceilVersionFuzzy) throws VersionParserException {
+	public SimpleVersionRange (@Nonnull SimpleVersion floorVersion, boolean floorVersionFuzzy, SimpleVersion ceilVersion, boolean ceilVersionFuzzy) throws VersionParserException {
 		Preconditions.checkNotNull (floorVersion, "floorVersion");
-		Preconditions.checkNotNull (ceilVersion, "ceilVersion");
 
 		// verify version range
-		if (floorVersion.newer (ceilVersion)) throw new VersionParserException ("The floor version is newer than the ceiling version.");
+		if (ceilVersion != null && floorVersion.newer (ceilVersion)) throw new VersionParserException ("The floor version is newer than the ceiling version.");
 
 		this.floorVersion = floorVersion;
 		this.floorVersionFuzzy = floorVersionFuzzy;
@@ -141,6 +140,20 @@ public class SimpleVersionRange {
 
 		// split string into two parts
 		List<String> versionRangeElements = Splitter.on (RANGE_SEPARATOR).splitToList (versionRange);
+
+		// create simple range
+		if (versionRangeElements.size () == 1 && !CharMatcher.anyOf (FLOOR_SELECTOR + FLOOR_SELECTOR_FUZZY + CEIL_SELECTOR + CEIL_SELECTOR_FUZZY).matchesAnyOf (versionRangeElements.get (0))) {
+			// store version
+			this.floorVersionFuzzy = true;
+			this.floorVersion = new SimpleVersion (versionRangeElements.get (0));
+
+			// set ceiling version
+			this.ceilVersionFuzzy = false;
+			this.ceilVersion = null;
+
+			// done
+			return;
+		}
 
 		// verify length
 		if (versionRangeElements.size () != 2) throw new VersionParserException ("Invalid amount of range elements: " + versionRangeElements.size ());
@@ -209,6 +222,10 @@ public class SimpleVersionRange {
 	public boolean isInRange (@Nonnull SimpleVersion version) {
 		Preconditions.checkNotNull (version);
 
+		// support bigger than ranges
+		if (this.ceilVersion == null && (this.floorVersionFuzzy && this.floorVersion.equals (version) || this.floorVersion.older (version))) return true;
+
+		// check normal ranges
 		return (this.ceilVersionFuzzy && this.ceilVersion.equals (version) || this.floorVersionFuzzy && this.floorVersion.equals (version) || (this.ceilVersion.newer (version) && this.floorVersion.older (version)));
 	}
 

@@ -108,6 +108,19 @@ public class RangeConstructorTest {
 		Assert.assertEquals (version2, range.getCeilingVersion ());
 		Assert.assertTrue (range.isFloorVersionFuzzy ());
 		Assert.assertFalse (range.isCeilingFuzzy ());
+
+		// create range string
+		rangeString = version1.toString ();
+
+		// parse
+		range = new SimpleVersionRange (rangeString);
+
+		// verify
+		Assert.assertEquals (version1, range.getFloorVersion ());
+		Assert.assertNull (range.getCeilingVersion ());
+		Assert.assertTrue (range.isFloorVersionFuzzy ());
+		Assert.assertFalse (range.isCeilingFuzzy ());
+		Assert.assertTrue (range.isInRange (version2));
 	}
 
 	/**

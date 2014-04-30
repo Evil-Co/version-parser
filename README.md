@@ -31,6 +31,7 @@ The library supports the most popular version range scheme:
 * ```(1.0.0,2.0.0]``` = ```version > 1.0.0 && version <= 2.0.0```
 * ```(1.0.0,2.0.0)``` = ```version > 1.0.0 && version < 2.0.0```
 * ```[1.0.0,2.0.0)``` = ```version >= 1.0.0 && version < 2.0.0```
+* ```1.0.0``` = ```version >= 1.0.0```
 
 Ranges may include any kind of whitespace character before or after the comma.
 
