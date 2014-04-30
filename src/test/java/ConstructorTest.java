@@ -1,4 +1,5 @@
 import com.evilco.version.SimpleVersion;
+import com.evilco.version.VersionParserException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +59,7 @@ public class ConstructorTest {
 	 * Tests the version parser constructor.
 	 */
 	@Test
-	public void parser () {
+	public void parser () throws VersionParserException {
 		// create test parameters
 		int major = 2;
 		int minor = 3;
@@ -137,10 +138,38 @@ public class ConstructorTest {
 	}
 
 	/**
+	 * Tests the parser validation.
+	 * @throws VersionParserException
+	 */
+	@Test (expected = VersionParserException.class)
+	public void parserEmptyError () throws VersionParserException {
+		new SimpleVersion ("");
+	}
+
+	/**
+	 * Tests the parser validation.
+	 * @throws VersionParserException
+	 */
+	@Test (expected = VersionParserException.class)
+	public void parserNumberError () throws VersionParserException {
+		new SimpleVersion ("A.B.C.D-EXTRA");
+	}
+
+	/**
+	 * Tests the parser validation.
+	 * @throws VersionParserException
+	 */
+	@Test (expected = VersionParserException.class)
+	public void parserWhitespaceError () throws VersionParserException {
+		new SimpleVersion ("1. 2.    5.-EXTRA    BCDE");
+	}
+
+	/**
 	 * Tests the parser parameter verification.
+	 * @throws VersionParserException
 	 */
 	@Test (expected = NullPointerException.class)
-	public void parserNull () {
+	public void parserNull () throws VersionParserException {
 		new SimpleVersion (((String) null));
 	}
 }

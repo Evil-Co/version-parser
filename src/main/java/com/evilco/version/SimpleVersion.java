@@ -16,6 +16,7 @@
 
 package com.evilco.version;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -145,8 +146,11 @@ public class SimpleVersion {
 	 * Constructs a new SimpleVersion instance.
 	 * @param version A string representation of the version.
 	 */
-	public SimpleVersion (@Nonnull String version) {
+	public SimpleVersion (@Nonnull String version) throws VersionParserException {
 		Preconditions.checkNotNull (version, "version");
+
+		// check for whitespaces
+		if (CharMatcher.WHITESPACE.matchesAnyOf (version)) throw new VersionParserException ("Versions are not allowed to contain any whitespace characters.");
 
 		// split version
 		Iterable<String> versionIterable = Splitter.on (VERSION_SEPARATOR).split (version);
@@ -171,6 +175,9 @@ public class SimpleVersion {
 
 		// iterate over all elements
 		Iterator<String> it = versionIterable.iterator ();
+
+		// validate length
+		if (!it.hasNext ()) throw new VersionParserException ("Supplied an empty version.");
 
 		while (it.hasNext ()) {
 			// get next bit
@@ -201,19 +208,23 @@ public class SimpleVersion {
 			}
 
 			// store bit
-			switch (currentVersionBit) {
-				case 0:
-					majorBit = Integer.valueOf (versionBit);
-					break;
-				case 1:
-					minorBit = Integer.valueOf (versionBit);
-					break;
-				case 2:
-					maintenanceBit = Integer.valueOf (versionBit);
-					break;
-				case 3:
-					buildBit = Integer.valueOf (versionBit);
-					break;
+			try {
+				switch (currentVersionBit) {
+					case 0:
+						majorBit = Integer.valueOf (versionBit);
+						break;
+					case 1:
+						minorBit = Integer.valueOf (versionBit);
+						break;
+					case 2:
+						maintenanceBit = Integer.valueOf (versionBit);
+						break;
+					case 3:
+						buildBit = Integer.valueOf (versionBit);
+						break;
+				}
+			} catch (NumberFormatException ex) {
+				throw new VersionParserException ("Found invalid version number in " + (currentVersionBit == 0 ? "major" : (currentVersionBit == 1 ? "minor" : (currentVersionBit == 2 ? "maintenance" : "build"))) + " version bit: " + ex.getMessage (), ex);
 			}
 
 			// verify state (stop processing if we hit the extra bit to support 1.0-EXTRA, 1.0.0-EXTRA, etc.)
