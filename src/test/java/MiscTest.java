@@ -1,4 +1,6 @@
 import com.evilco.version.SimpleVersion;
+import com.evilco.version.SimpleVersionRange;
+import com.evilco.version.VersionParserException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,5 +46,47 @@ public class MiscTest {
 		Assert.assertEquals ("1.2.3.4-EXTRA", version6.toString ());
 
 		Assert.assertEquals ("1.0.0.0", version1.toString (false));
+	}
+
+	/**
+	 * Tests the range export method.
+	 * @throws VersionParserException
+	 */
+	@Test
+	public void exportRange () throws VersionParserException {
+		// create ranges
+		SimpleVersionRange range1 = new SimpleVersionRange ("1.0.0", "2.0.0");
+		SimpleVersionRange range2 = new SimpleVersionRange ("1.0.0", true, "2.0.0", false);
+		SimpleVersionRange range3 = new SimpleVersionRange ("1.0.0", false, "2.0.0", true);
+		SimpleVersionRange range4 = new SimpleVersionRange ("1.0.0", false, "2.0.0", false);
+
+		// check
+		Assert.assertEquals ("[1.0.0,2.0.0]", range1.toString ());
+		Assert.assertEquals ("[1.0.0,2.0.0)", range2.toString ());
+		Assert.assertEquals ("(1.0.0,2.0.0]", range3.toString ());
+		Assert.assertEquals ("(1.0.0,2.0.0)", range4.toString ());
+	}
+
+	/**
+	 * Tests the isInRange method.
+	 * @throws VersionParserException
+	 */
+	@Test
+	public void inRange () throws VersionParserException {
+		// create versions
+		SimpleVersion version1 = new SimpleVersion (1, 0, 0, 0, null);
+		SimpleVersion version2 = new SimpleVersion (2, 0, 0, 0, null);
+
+		SimpleVersion testVersion1 = new SimpleVersion (1, 2, 0, 0, null);
+		SimpleVersion testVersion2 = new SimpleVersion (1, 0, 0, 0, null);
+		SimpleVersion testVersion3 = new SimpleVersion (2, 0, 0, 0, null);
+
+		// create range
+		SimpleVersionRange range = new SimpleVersionRange (version1, false, version2, true);
+
+		// check
+		Assert.assertTrue (range.isInRange (testVersion1));
+		Assert.assertFalse (range.isInRange (testVersion2));
+		Assert.assertTrue (range.isInRange (testVersion3));
 	}
 }
