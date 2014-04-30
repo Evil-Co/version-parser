@@ -361,7 +361,9 @@ public class SimpleVersion {
 	 * @param version The version to compare.
 	 * @return True if the supplied version is older.
 	 */
-	public boolean newer (SimpleVersion version) {
+	public boolean newer (@Nonnull SimpleVersion version) {
+		Preconditions.checkNotNull (version, "version");
+
 		// check equality
 		if (this.equals (version)) return false;
 
@@ -391,7 +393,9 @@ public class SimpleVersion {
 	 * @param version The version to compare.
 	 * @return True if the supplied version is newer.
 	 */
-	public boolean older (SimpleVersion version) {
+	public boolean older (@Nonnull SimpleVersion version) {
+		Preconditions.checkNotNull (version, "version");
+
 		return (!this.equals (version) && !this.newer (version));
 	}
 
@@ -400,6 +404,9 @@ public class SimpleVersion {
 	 */
 	@Override
 	public boolean equals (Object obj) {
+		// check for null objects
+		if (obj == null) return false;
+
 		// handle non versions
 		if (!(obj instanceof SimpleVersion)) return super.equals (obj);
 
