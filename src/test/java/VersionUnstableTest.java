@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
  * limitations under the License.
  */
 @RunWith (MockitoJUnitRunner.class)
-public class UnstableTest {
+public class VersionUnstableTest {
 
 	/**
 	 * Tests snapshot detection.

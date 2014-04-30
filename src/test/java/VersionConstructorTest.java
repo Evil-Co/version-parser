@@ -21,7 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
  * limitations under the License.
  */
 @RunWith (MockitoJUnitRunner.class)
-public class ConstructorTest {
+public class VersionConstructorTest {
 
 	/**
 	 * Tests the default constructor.
