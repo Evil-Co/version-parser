@@ -235,8 +235,14 @@ public class SimpleVersion {
 	 * Copies a SimpleVersion instance.
 	 * @param version The version to copy.
 	 */
-	public SimpleVersion (SimpleVersion version) {
-		this (version.getMajor (), version.getMinor (), version.getMaintenance (), version.getBuild (), version.getExtra ());
+	public SimpleVersion (@Nonnull SimpleVersion version) {
+		Preconditions.checkNotNull (version);
+
+		this.majorBit = version.getMajor ();
+		this.minorBit = version.getMinor ();
+		this.maintenanceBit = version.getMaintenance ();
+		this.buildBit = version.getBuild ();
+		this.extraBit = version.getExtra ();
 	}
 
 	/**
