@@ -51,7 +51,7 @@ to your project:
 
 	<dependency>
 		<groupId>com.evilco</groupId>
-		<artifactId>version</artifactId>
+		<artifactId>version-parser</artifactId>
 		<version>1.0.0</version>
 	</dependency>
 
