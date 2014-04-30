@@ -1,4 +1,4 @@
-Java Version Parser [![Build Status](http://assets.evil-co.com/build/NBTLIB-MASTER.png)](http://www.evil-co.com/ci/browse/JVPL-MASTER)
+Java Version Parser [![Build Status](http://assets.evil-co.com/build/JVPL-MASTER.png)](http://www.evil-co.com/ci/browse/JVPL-MASTER)
 ===============
 This library provides a simple way to parse, compare and export human readable version numbers.
 
